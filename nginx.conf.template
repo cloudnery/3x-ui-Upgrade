@@ -1,3 +1,4 @@
+user root;
 worker_processes 1;
 pid ${RT}/nginx/nginx.pid;
 error_log /dev/stderr warn;
