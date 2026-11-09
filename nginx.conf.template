@@ -1,7 +1,15 @@
 worker_processes 1;
+pid ${RT}/nginx/nginx.pid;
+error_log /dev/stderr warn;
 events { worker_connections 1024; }
 
 http {
+    access_log off;
+    client_body_temp_path ${RT}/nginx/cb;
+    proxy_temp_path ${RT}/nginx/pt;
+    fastcgi_temp_path ${RT}/nginx/fc;
+    uwsgi_temp_path ${RT}/nginx/uw;
+    scgi_temp_path ${RT}/nginx/sc;
     server {
         listen ${NGINX_PORT};
 
