@@ -22,7 +22,17 @@ echo "✅ Using writable dir: $RT"
 export RT
 
 mkdir -p "$RT/db" "$RT/log" "$RT/bin" "$RT/nginx"
-export XUI_DB_FOLDER="$RT/db"
+
+# Persistent volume (Deplexo "Persistent storage path" = /data): keep the database there
+DBDIR="$RT/db"
+if mkdir -p /data/x-ui 2>/dev/null && touch /data/x-ui/.w 2>/dev/null; then
+  rm -f /data/x-ui/.w
+  DBDIR=/data/x-ui
+  echo "💾 Persistent storage OK: database in $DBDIR"
+else
+  echo "⚠️ /data is not writable -> database is TEMPORARY (lost on restart)"
+fi
+export XUI_DB_FOLDER="$DBDIR"
 export XUI_LOG_FOLDER="$RT/log"
 export XUI_BIN_FOLDER="$RT/bin"
 
